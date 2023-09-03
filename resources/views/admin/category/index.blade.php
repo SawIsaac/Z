@@ -2,10 +2,9 @@
 @section('content')
                 <main>
                     <div class="container-fluid px-4">
-                    <div class="container-fluid px-4">
                         <div class="my-5">
-                        <h1 class="my-4 d-inline">Posts</h1>
-                        <a href="{{route('backend.posts.create')}}" class="btn btn-primary float-end">Add Posts</a>
+                        <h1 class="my-4 d-inline">Category</h1>
+                        <a href="{{route('backend.categories.create')}}" class="btn btn-primary float-end">Add Category</a>
                     </div>
                         <div class="card mb-4">
                             <div class="card-header">
@@ -14,14 +13,11 @@
                             </div>
                             <div class="card-body">
                                 <table id="datatablesSimple">
-                                    <thead>
+                                    <thead> 
                                         <tr>
                                             <th>id</th>
                                             <th>Name</th>
                                             <th>Photo</th>
-                                            <th>Category</th>
-                                            <th>User</th>
-                                            <th>Description</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -30,23 +26,18 @@
                                             <th>id</th>
                                             <th>Name</th>
                                             <th>Photo</th>
-                                            <th>Category</th>
-                                            <th>User</th>
-                                            <th>Description</th>
                                             <th>Action</th>
                                         </tr>
                                     </tfoot>
                                     <tbody id="item_tbody">
-                                        @foreach($posts as $post)
+                                        @foreach($categories as $category)
                                         <tr>
-                                            <td>{{$post->id}}</td>
-                                            <td>{{$post->name}}</td>
-                                            <td><img src="{{$post->photo}}" alt="" class="w-25"></td>
-                                            <td>{{$post->category->title}}</td>
-                                            <td>{{$post->user->name}}</td>
-                                            <!-- <td>{{$post->description}}</td> -->
-                                            <td><a href="{{route('backend.posts.edit',$post->id)}}" class="btn btn-sm btn-warning"><i class="fa-solid fa-pen-to-square fa-2x"></i></a>
-                                                <button class="btn btn-sm btn-danger delete" data-id="{{$post->id}}"><i class="fa-solid fa-trash fa-2x"></i></button>
+                                            <td>{{$category->id}}</td>
+                                            <td>{{$category->title}}</td>
+                                            <td><img src="{{$category->photo}}" alt="" class="w-25"></td>
+                                            
+                                            <td><a href="{{route('backend.categories.edit',$category->id)}}" class="btn btn-sm btn-warning"><i class="fa-solid fa-pen-to-square fa-2x"></i></a>
+                                                <button class="btn btn-sm btn-danger delete" data-id="{{$category->id}}"><i class="fa-solid fa-trash fa-2x"></i></button>
                                             </td>
                                         </tr>
                                         @endforeach
@@ -83,7 +74,7 @@
         $(document).ready(function(){
             $('#item_tbody').on('click','.delete',function(){
                 let id = $(this).data('id');
-                $('#deleteForm').prop('action','posts/'+id);
+                $('#deleteForm').prop('action','categories/'+id);
                 $('#deletModal').modal('show');
             })
         })

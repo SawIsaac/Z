@@ -48,11 +48,11 @@
                                 Dashboard
                             </a>
                             <div class="sb-sidenav-menu-heading">Interface</div>
-                            <a class="nav-link" href="">
+                            <a class="nav-link" href="{{route('backend.posts.index')}}">
                                 <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
                                 Posts
                             </a>
-                            <a class="nav-link" href="">
+                            <a class="nav-link" href="{{route('backend.categories.index')}}">
                                 <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
                                 Category
                             </a>

@@ -6,21 +6,18 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Post;
 use App\Models\Category;
-use App\Models\User;
-use App\Http\Requests\PostRequest;
-use App\Http\Requests\PostUpdateRequest;
+use App\Http\Requests\CategoryRequest;
+use App\Http\Requests\CategoryUpdateRequest;
 
-class PostController extends Controller
+class CategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $posts = Post::all();
         $categories = Category::all();
-        $users = User::all();
-        return view('admin.post.index',compact('posts','categories','users'));
+        return view('admin.category.index',compact('categories'));
     }
 
     /**
@@ -28,24 +25,23 @@ class PostController extends Controller
      */
     public function create()
     {
-        $users = User::all();
         $categories = Category::all();
-        return view('admin.post.create',compact('categories','users'));
+        return view('admin.category.create',compact('categories'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(PostRequest $request)
-    {   
-        $posts = Post::create($request->all());
+    public function store(CategoryRequest $request)
+    {
+        $categories = Category::create($request->all()); 
         $fileName = time().'.'.$request->photo->extension();
         $upload = $request->photo->move(public_path('images/'),$fileName);
         if($upload){
-            $posts->photo = "/images/".$fileName;
+            $categories->photo = "/images/".$fileName;
         }
-        $posts->save();
-        return redirect()->route('backend.posts.index');
+        $categories->save();
+        return redirect()->route('backend.categories.index');
     }
 
     /**
@@ -61,31 +57,28 @@ class PostController extends Controller
      */
     public function edit(string $id)
     {
-            $post = Post::find($id);
-            $categories = Category::all();
-            $users = User::all();
-            return view('admin.post.edit',compact('post','categories','users'));
-    }
-
+        $category = Category::find($id); 
+        return view('admin.category.edit',compact('category'));
+    }    
     /**
      * Update the specified resource in storage.
      */
-    public function update(PostUpdateRequest $request, string $id)
+    public function update(CategoryUpdateRequest $request, string $id)
     {
-        $post = Post::find($id);
-        $post->update($request->all());
+        $category = Category::find($id);
+        $category->update($request->all());
         if($request->hasFile('new_image')){
             $fileName = time().'.'.$request->new_image->extension();
 
             $upload = $request->new_image->move(public_path('images/'), $fileName);
 
             if($upload){
-                $post->photo = "/images/".$fileName;
+                $category->photo = "/images/".$fileName;
             }
         }else{
-            $post->photo = $request->old_image;
+            $category->photo = $request->old_image;
         }
-        $post->save();
+        $category->save();
         return redirect()->route('backend.posts.index');
     }
 
@@ -94,8 +87,8 @@ class PostController extends Controller
      */
     public function destroy(string $id)
     {
-        $item = Post::find($id);
-        $item->delete();
-        return redirect()->route('backend.posts.index');
+        $category = Category::find($id);
+        $category->delete();
+        return redirect()->route('backend.categories.index');
     }
 }
